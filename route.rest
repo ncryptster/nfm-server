@@ -1,0 +1,13 @@
+GET http://localhost:5000/tokens
+
+###
+
+PATCH http://localhost:5000/tokens/54
+
+
+###
+
+POST http://localhost:5000/tokens
+
+###
+DELETE http://localhost:5000/tokens
