@@ -19,15 +19,21 @@ db.once("open", () => console.log("Conneted to Database"));
 router.post("/", async (req, res) => { await getNewTokens(); res.json({message: 'okay got it '}) });
 router.get("/", async (req, res) => { try { const tokens = await Token.find(); res.send(tokens); } catch (err) { res.status(500).json({ message: err.message, }); } });
 router.patch("/:tokenId", async (req, res) => {
-	let smToken = await createToken(req.params.tokenId);
+	const smToken = await createToken(req.params.tokenId);
+	const smListing = await marketplaceContact.methods
+        .tokenIdToAuction(req.params.tokenId)
+        .call(); 
 	let dbToken = await Token.findOne({
 		tokenId: req.params.tokenId,
 	});
+	if (smListing.price != 0) {
+		dbToken.listing.listed = true;
+	}
+	if (smListing.seller != dbToken.listing.seller) {
+		dbToken.listing = smToken.listing;
+	}
 	if (smToken.tokenOwner != dbToken.tokenOwner) {
 		dbToken.tokenOwner = smToken.tokenOwner;
-	}
-	if (smToken.listing != dbToken.listing) {
-		dbToken.listing = smToken.listing;
 	}
 	if (smToken.approvedForSale != dbToken.approvedForSale) {
 		dbToken.approvedForSale = smToken.approvedForSale;
@@ -41,7 +47,7 @@ router.patch("/:tokenId", async (req, res) => {
 });
 router.delete('/', async (req, res) => { await Token.deleteMany({}) });
 app.use(express.json());
-app.use(function (req, res, next) { res.header("Access-Control-Allow-Origin", "*"); res.header( "Access-Control-Allow-Headers", "Origin, x-Requested-With, Content-Type, Accept" ); next(); });
+app.use(function (req, res, next) { res.header("Access-Control-Allow-Methods", "*"); res.header("Access-Control-Allow-Origin", "*"); res.header( "Access-Control-Allow-Headers", "Origin, x-Requested-With, Content-Type, Accept" ); next(); });
 app.use("/tokens", router);
 app.listen(process.env.PORT || 5000, () => console.log("Server Started"));
 
