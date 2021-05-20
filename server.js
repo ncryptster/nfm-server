@@ -4,10 +4,11 @@ const cors = require('cors');
 const app = express();
 const mongoose = require("mongoose");
 const Token = require("./models/token");
-const nfm = require("./data/development/nfm");
-const marketplace = require("./data/development/marketplace");
+const nfm = require("./data/production/nfm");
+const marketplace = require("./data/production/marketplace");
 const Cards = require("./data/cardData");
-const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
+const web3 = new Web3('https://bsc-dataseed.binance.org/')
+//const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
 const router = require("express").Router();
 const nfmContract = new web3.eth.Contract(nfm.ABI, nfm.ContractAddress);
 const marketplaceContact = new web3.eth.Contract( marketplace.ABI, marketplace.ContractAddress );
@@ -103,4 +104,4 @@ async function createToken(tokenId) {
   return token;
 }
 
-getNewTokens();
+//getNewTokens();

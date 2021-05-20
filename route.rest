@@ -1,13 +1,13 @@
-GET https://nfmt-backend.herokuapp.com/tokens
+GET http://localhost:5000/tokens/
 
 ###
 
-PATCH http://localhost:5000/tokens/1445
+PATCH http://localhost:5000/tokens/1506
 
 
 ###
 
-POST https://nfmt-backend.herokuapp.com/tokens
+POST http://localhost:5000/tokens/
 
 ###
-DELETE https://nfmt-backend.herokuapp.com/tokens
+DELETE http://localhost:5000/tokens
