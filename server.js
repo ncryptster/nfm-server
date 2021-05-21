@@ -47,7 +47,7 @@ router.patch("/:tokenId", async (req, res) => {
 		console.error(err);
 	}
 });
-router.delete('/', async (req, res) => { await Token.deleteMany({}) });
+//router.delete('/', async (req, res) => { await Token.deleteMany({}) });
 app.use(cors())
 app.use(express.json());
 app.use("/tokens", router);
